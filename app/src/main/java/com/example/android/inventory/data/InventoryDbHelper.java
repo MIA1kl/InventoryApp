@@ -24,4 +24,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         database.execSQL(InventoryContract.inventoryTable.DELETE_TABLE);
         onCreate(database);
     }
+
+
 }

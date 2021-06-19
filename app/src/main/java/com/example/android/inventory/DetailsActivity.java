@@ -26,16 +26,16 @@ public class DetailsActivity extends AppCompatActivity {
 
     final Context context = this;
     TextView name;
+    TextView supplier;
     TextView price;
     TextView quantity;
     ImageView image;
-    // Buttons
     Button incButton;
     Button decButton;
     Button order_item;
-    // variables required for intent data
     int mProductId;
     String mProductName;
+    String mProductSupplier;
     int mProductQuantity;
     byte[] mImageUrl;
     double mProductPrice;
@@ -46,6 +46,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         name = (TextView) findViewById(R.id.name_text_view);
+        supplier = (TextView) findViewById(R.id.supplier_text_view);
         price = (TextView) findViewById(R.id.price_text_view);
         quantity = (TextView) findViewById(R.id.quantity_text);
         image = (ImageView) findViewById(R.id.product_photo);
@@ -58,14 +59,16 @@ public class DetailsActivity extends AppCompatActivity {
             Bundle bundle = i.getExtras();
             mProductId = bundle.getInt("id");
             mProductName = bundle.getString("productName");
+            mProductSupplier = bundle.getString("productSupplier");
             mProductQuantity = bundle.getInt("quantity");
             mProductPrice = bundle.getDouble("price");
             mImageUrl = bundle.getByteArray("image");
         }
 
         name.setText(mProductName);
+        supplier.setText(" "+mProductSupplier+" ");
         quantity.setText(" " + mProductQuantity + " ");
-        price.setText(" ₹ " + mProductPrice);
+        price.setText(" $ " + mProductPrice);
         Glide.with(context)
                 .load(mImageUrl)
                 .error(R.mipmap.ic_launcher)
@@ -84,7 +87,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, "Please Ship 50 products of " + mProductName);
+                intent.putExtra(Intent.EXTRA_TEXT, "Please Ship n products of " + mProductName);
                 if (intent.resolveActivity(getPackageManager()) != null)
                     startActivity(intent);
             }
@@ -113,7 +116,7 @@ public class DetailsActivity extends AppCompatActivity {
                 mProductQuantity--;
                 if (mProductQuantity <= 0) {
                     mProductQuantity = 0;
-                    Toast.makeText(getApplicationContext(), "item out of stock", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Sorry, the inventory is out o stock", Toast.LENGTH_SHORT).show();
                 }
                 quantity.setText(" " + mProductQuantity + " ");
                 ContentValues values = new ContentValues();

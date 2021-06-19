@@ -40,6 +40,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
     public void bindView(View view, final Context context, Cursor cursor) {
         LinearLayout listItemView = (LinearLayout) view.findViewById(R.id.listItem);
         TextView productName = (TextView) view.findViewById(R.id.name);
+        TextView productSupplier = (TextView) view.findViewById(R.id.supplier);
         TextView productQuantity = (TextView) view.findViewById(R.id.quantity);
         TextView price = (TextView) view.findViewById(R.id.summary);
         Button buyButton = (Button) view.findViewById(R.id.decButton);
@@ -47,13 +48,13 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         final int id = cursor.getInt(cursor.getColumnIndex(inventoryTable._ID));
         final String name = cursor.getString(cursor.getColumnIndex(inventoryTable.COLOUMN_PRODUCT_NAME));
+        final String supplier = cursor.getString(cursor.getColumnIndex(inventoryTable.COLOUMN_PRODUCT_SUPPLIER));
         final int prodQuantity = cursor.getInt(cursor.getColumnIndex(inventoryTable.COLOUMN_QUANTITY));
         final double mPrice = cursor.getDouble(cursor.getColumnIndex(inventoryTable.COLOUMN_PRICE));
-
-
         final byte[] imageBlob = cursor.getBlob(cursor.getColumnIndex(inventoryTable.COLOUMN_IMAGE_URL));
 
         productName.setText(name);
+        productSupplier.setText("Supplier: "+supplier);
         price.setText("Price: " + mPrice);
         productQuantity.setText("Quantity: " + prodQuantity);
 
@@ -82,6 +83,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", id);
                 bundle.putString("productName", name);
+                bundle.putString("productSupplier", supplier);
                 bundle.putInt("quantity", prodQuantity);
                 bundle.putDouble("price", mPrice);
                 bundle.putByteArray("image", imageBlob);

@@ -13,8 +13,9 @@
     <string name="details">Details</string>
     <string name="category_price">Price</string>
     <string name="hint_item_name">Name</string>
+    <string name="hint_item_supplier">Supplier</string>
     <string name="hint_price">Price</string>
-    <string name="unit_item">₹</string>
+    <string name="unit_item">$</string>
     <string name="editor_insert_item_successful">Item saved</string>
     <string name="editor_insert_item_failed">Error with saving Item</string>
     <string name="empty_view_title_text">It\'s a bit lonely here...</string>

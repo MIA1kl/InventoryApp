@@ -37,7 +37,7 @@ public class InventoryQuery {
     public Cursor readFromTable(String tableName, String[] projections) {
 
         db = mDbHelper.getReadableDatabase();
-        return db.query(tableName, projections, null, null, null, null, null);
+        return db.query(tableName, projections, null, null, null, null, null,null);
 
     }
 
@@ -45,7 +45,7 @@ public class InventoryQuery {
                                 String[] selectionArgs) {
         if (tableName != null) {
             SQLiteDatabase db = mDbHelper.getReadableDatabase();
-            return db.query(tableName, projection, selection, selectionArgs, null, null, null);
+            return db.query(tableName, projection, selection, selectionArgs, null, null, null,null);
         }
         return null;
     }

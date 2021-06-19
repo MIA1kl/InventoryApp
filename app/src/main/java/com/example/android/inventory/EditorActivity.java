@@ -45,6 +45,7 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAMERA) {
             if (resultCode == RESULT_OK) {
                 Bitmap image = (Bitmap) data.getExtras().get("data");
@@ -76,11 +77,18 @@ public class EditorActivity extends AppCompatActivity {
     public void saveItem() {
         final EditText productPrice = (EditText) findViewById(R.id.edit_item_price);
         final EditText productName = (EditText) findViewById(R.id.edit_item_name);
+        final EditText productSupplier = (EditText) findViewById(R.id.edit_item_supplier);
         final EditText productQuantity = (EditText) findViewById(R.id.edit_item_quantity);
 
         String mProductName = productName.getText().toString();
         if (productName.getText().toString().length() == 0) {
             Toast.makeText(getApplicationContext(), "Name can\'t be empty", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        String mProductSupplier = productSupplier.getText().toString();
+        if (productSupplier.getText().toString().length() == 0) {
+            Toast.makeText(getApplicationContext(), "Supplier field can\'t be empty", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -107,6 +115,7 @@ public class EditorActivity extends AppCompatActivity {
 
         ContentValues values = new ContentValues();
         values.put(InventoryContract.inventoryTable.COLOUMN_PRODUCT_NAME, mProductName);
+        values.put(InventoryContract.inventoryTable.COLOUMN_PRODUCT_SUPPLIER, mProductSupplier);
         values.put(InventoryContract.inventoryTable.COLOUMN_QUANTITY, mProductQuantity);
         values.put(InventoryContract.inventoryTable.COLOUMN_PRICE, mProductPrice);
         values.put(InventoryContract.inventoryTable.COLOUMN_IMAGE_URL, imageBlob);
