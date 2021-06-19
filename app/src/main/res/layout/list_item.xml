@@ -67,7 +67,7 @@
                 android:layout_margin="4dp"
                 android:background="@color/colorPrimary"
                 android:focusable="false"
-                android:text="Buy now" />
+                android:text="Get one" />
 
         </LinearLayout>
 

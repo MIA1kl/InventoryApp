@@ -52,7 +52,7 @@ public class DetailsActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.product_photo);
         incButton = (Button) findViewById(R.id.inc_button);
         decButton = (Button) findViewById(R.id.dec_button);
-        order_item = (Button) findViewById(R.id.order_now_button);
+
 
         Intent i = getIntent();
         if (i != null) {
@@ -77,22 +77,11 @@ public class DetailsActivity extends AppCompatActivity {
 
         buttonOnClickListener();
 
-        orderItem();
+
 
     }
 
-    public void orderItem() {
-        order_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, "Please Ship n products of " + mProductName);
-                if (intent.resolveActivity(getPackageManager()) != null)
-                    startActivity(intent);
-            }
-        });
-    }
+
 
     public void buttonOnClickListener() {
 
@@ -116,7 +105,7 @@ public class DetailsActivity extends AppCompatActivity {
                 mProductQuantity--;
                 if (mProductQuantity <= 0) {
                     mProductQuantity = 0;
-                    Toast.makeText(getApplicationContext(), "Sorry, the inventory is out o stock", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Sorry, no items left", Toast.LENGTH_SHORT).show();
                 }
                 quantity.setText(" " + mProductQuantity + " ");
                 ContentValues values = new ContentValues();
