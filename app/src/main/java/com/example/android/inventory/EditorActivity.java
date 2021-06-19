@@ -3,6 +3,7 @@ package com.example.android.inventory;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 
 import android.os.Bundle;
@@ -18,11 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.android.inventory.data.InventoryContract;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import static com.example.android.inventory.data.InventoryQuery.*;
 
 public class EditorActivity extends AppCompatActivity {
     static final int REQUEST_CAMERA = 1;
+    static final int GALLERY = 1;
     ImageView productImage;
     byte[] imageBlob = null;
 
@@ -35,9 +38,9 @@ public class EditorActivity extends AppCompatActivity {
         productImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (intent.resolveActivity(getPackageManager()) != null)
-                    startActivityForResult(intent, REQUEST_CAMERA);
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY);
             }
         });
 
@@ -46,14 +49,23 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CAMERA) {
+        if (requestCode == GALLERY) {
             if (resultCode == RESULT_OK) {
-                Bitmap image = (Bitmap) data.getExtras().get("data");
-                productImage.setImageBitmap(image);
+                Uri photoUri = data.getData();
+                if (photoUri != null) {
+                    Bitmap image = null;
+                    try {
+                        image = MediaStore.Images.Media.getBitmap(this
+                                .getContentResolver(), photoUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    productImage.setImageBitmap(image);
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                imageBlob = stream.toByteArray();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    imageBlob = stream.toByteArray();
+                }
             }
         }
     }
